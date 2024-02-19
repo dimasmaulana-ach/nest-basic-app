@@ -7,27 +7,42 @@ import { PrismaServiceService } from 'src/prisma-service/prisma-service.service'
 export class RolesService {
   constructor(private prismaService: PrismaServiceService) {}
   create(createRoleDto: CreateRoleDto) {
-    return this.prismaService.role.create({
+    const created = this.prismaService.role.create({
       data: {
         ...createRoleDto,
       },
     });
+    return {
+      status: 201,
+      message: 'Role created',
+      data: created,
+    };
   }
 
   findAll() {
-    return this.prismaService.role.findMany();
+    const all = this.prismaService.role.findMany();
+    return {
+      status: 200,
+      message: 'All roles',
+      data: all,
+    };
   }
 
   findOne(id: number) {
-    return this.prismaService.role.findUnique({
+    const one = this.prismaService.role.findUnique({
       where: {
         id,
       },
     });
+    return {
+      status: 200,
+      message: 'Role found',
+      data: one,
+    };
   }
 
   update(id: number, updateRoleDto: UpdateRoleDto) {
-    return this.prismaService.role.update({
+    const updated = this.prismaService.role.update({
       where: {
         id,
       },
@@ -35,13 +50,23 @@ export class RolesService {
         ...updateRoleDto,
       },
     });
+    return {
+      status: 200,
+      message: 'Role updated',
+      data: updated,
+    };
   }
 
   remove(id: number) {
-    return this.prismaService.role.delete({
+    const removed = this.prismaService.role.delete({
       where: {
         id,
       },
     });
+    return {
+      status: 200,
+      message: 'Role removed',
+      data: removed,
+    };
   }
 }

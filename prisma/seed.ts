@@ -1,6 +1,31 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
+
+const jsonSeedRole = [
+  {
+    name: 'admin',
+  },
+  {
+    name: 'CEO',
+  },
+  {
+    name: 'CTO',
+  },
+  {
+    name: 'COO',
+  },
+  {
+    name: 'Manager',
+  },
+  {
+    name: 'Supervisor',
+  },
+  {
+    name: 'Employee',
+  },
+];
 
 const jsonSeedUser = [
   {
@@ -208,13 +233,25 @@ const jsonPostSeed = [
   },
 ];
 
+async function seedRole() {
+  jsonSeedRole.map(async (role) => {
+    await prisma.role.create({
+      data: {
+        name: role.name,
+      },
+    });
+  });
+}
+
 async function seedUser() {
   jsonSeedUser.map(async (user) => {
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
     await prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
         rolesId: user.rolesId,
       },
     });
@@ -235,8 +272,9 @@ async function seedPost() {
 }
 
 async function seed() {
-  await seedUser();
-  await seedPost();
+  // await seedRole();
+  // await seedUser();
+  // await seedPost();
 }
 
 async function main() {

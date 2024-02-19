@@ -7,13 +7,18 @@ import { PrismaServiceService } from 'src/prisma-service/prisma-service.service'
 export class PostService {
   constructor(private prismaService: PrismaServiceService) {}
   create(createPostDto: CreatePostDto) {
-    return this.prismaService.post.create({
+    const created = this.prismaService.post.create({
       data: createPostDto,
     });
+    return {
+      status: 201,
+      message: 'Post created',
+      data: created,
+    };
   }
 
   findAll() {
-    return this.prismaService.post.findMany({
+    const all = this.prismaService.post.findMany({
       include: {
         author: {
           include: {
@@ -22,30 +27,50 @@ export class PostService {
         },
       },
     });
+    return {
+      status: 200,
+      message: 'All posts',
+      data: all,
+    };
   }
 
   findOne(id: number) {
-    return this.prismaService.post.findUnique({
+    const ones = this.prismaService.post.findUnique({
       where: {
         id,
       },
     });
+    return {
+      status: 200,
+      message: 'Post found',
+      data: ones,
+    };
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
-    return this.prismaService.post.update({
+    const updated = this.prismaService.post.update({
       where: {
         id,
       },
       data: updatePostDto,
     });
+    return {
+      status: 200,
+      message: 'Post updated',
+      data: updated,
+    };
   }
 
   remove(id: number) {
-    return this.prismaService.post.delete({
+    const removed = this.prismaService.post.delete({
       where: {
         id,
       },
     });
+    return {
+      status: 200,
+      message: 'Post removed',
+      data: removed,
+    };
   }
 }
