@@ -6,8 +6,8 @@ import { PrismaServiceService } from 'src/prisma-service/prisma-service.service'
 @Injectable()
 export class RolesService {
   constructor(private prismaService: PrismaServiceService) {}
-  create(createRoleDto: CreateRoleDto) {
-    const created = this.prismaService.role.create({
+  async create(createRoleDto: CreateRoleDto) {
+    const created = await this.prismaService.role.create({
       data: {
         ...createRoleDto,
       },
@@ -19,8 +19,8 @@ export class RolesService {
     };
   }
 
-  findAll() {
-    const all = this.prismaService.role.findMany();
+  async findAll() {
+    const all = await this.prismaService.role.findMany();
     return {
       status: 200,
       message: 'All roles',
@@ -28,8 +28,8 @@ export class RolesService {
     };
   }
 
-  findOne(id: number) {
-    const one = this.prismaService.role.findUnique({
+  async findOne(id: number) {
+    const one = await this.prismaService.role.findUnique({
       where: {
         id,
       },
@@ -41,8 +41,8 @@ export class RolesService {
     };
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    const updated = this.prismaService.role.update({
+  async update(id: number, updateRoleDto: UpdateRoleDto) {
+    const updated = await this.prismaService.role.update({
       where: {
         id,
       },
@@ -57,8 +57,8 @@ export class RolesService {
     };
   }
 
-  remove(id: number) {
-    const removed = this.prismaService.role.delete({
+  async remove(id: number) {
+    const removed = await this.prismaService.role.delete({
       where: {
         id,
       },

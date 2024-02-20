@@ -11,7 +11,7 @@ export class UsersService {
     const { password, ...rest } = createUserDto;
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
-    this.prismaService.user.create({
+    await this.prismaService.user.create({
       data: {
         ...rest,
         password: hashedPassword,
@@ -24,8 +24,8 @@ export class UsersService {
     };
   }
 
-  findAll() {
-    const all = this.prismaService.user.findMany({
+  async findAll() {
+    const all = await this.prismaService.user.findMany({
       select: {
         name: true,
         email: true,
@@ -33,6 +33,7 @@ export class UsersService {
         role: true,
       },
     });
+    // return this.prismaService.user.findMany()
     return {
       status: 200,
       message: 'All users',
@@ -40,8 +41,8 @@ export class UsersService {
     };
   }
 
-  findOne(id: number) {
-    const findOned = this.prismaService.user.findUnique({
+  async findOne(id: number) {
+    const findOned = await this.prismaService.user.findUnique({
       where: {
         id,
       },
@@ -67,11 +68,11 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     const { password, ...rest } = updateUserDto;
-    const salt = bcrypt.genSalt(12);
-    const hashedPassword = bcrypt.hash(password, salt);
-    const updated = this.prismaService.user.update({
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const updated = await this.prismaService.user.update({
       where: {
         id,
       },
@@ -93,8 +94,8 @@ export class UsersService {
     };
   }
 
-  remove(id: number) {
-    const removed = this.prismaService.user.delete({
+  async remove(id: number) {
+    const removed = await this.prismaService.user.delete({
       where: {
         id,
       },

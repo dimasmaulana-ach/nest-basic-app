@@ -272,9 +272,14 @@ async function seedPost() {
 }
 
 async function seed() {
+  // seedRole().then(() => {
+  //   seedUser().then(() => {
+  //     seedPost();
+  //   });
+  // });
   // await seedRole();
   // await seedUser();
-  // await seedPost();
+  await seedPost();
 }
 
 async function main() {

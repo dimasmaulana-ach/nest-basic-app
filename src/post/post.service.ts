@@ -6,8 +6,8 @@ import { PrismaServiceService } from 'src/prisma-service/prisma-service.service'
 @Injectable()
 export class PostService {
   constructor(private prismaService: PrismaServiceService) {}
-  create(createPostDto: CreatePostDto) {
-    const created = this.prismaService.post.create({
+  async create(createPostDto: CreatePostDto) {
+    const created = await this.prismaService.post.create({
       data: createPostDto,
     });
     return {
@@ -17,8 +17,8 @@ export class PostService {
     };
   }
 
-  findAll() {
-    const all = this.prismaService.post.findMany({
+  async findAll() {
+    const all = await this.prismaService.post.findMany({
       include: {
         author: {
           include: {
@@ -34,8 +34,8 @@ export class PostService {
     };
   }
 
-  findOne(id: number) {
-    const ones = this.prismaService.post.findUnique({
+  async findOne(id: number) {
+    const ones = await this.prismaService.post.findUnique({
       where: {
         id,
       },
@@ -47,8 +47,8 @@ export class PostService {
     };
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    const updated = this.prismaService.post.update({
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    const updated = await this.prismaService.post.update({
       where: {
         id,
       },
@@ -61,8 +61,8 @@ export class PostService {
     };
   }
 
-  remove(id: number) {
-    const removed = this.prismaService.post.delete({
+  async remove(id: number) {
+    const removed = await this.prismaService.post.delete({
       where: {
         id,
       },
