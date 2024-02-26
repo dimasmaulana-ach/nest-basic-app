@@ -27,6 +27,7 @@ export class UsersService {
   async findAll() {
     const all = await this.prismaService.user.findMany({
       select: {
+        id: true,
         name: true,
         email: true,
         password: false,
@@ -47,6 +48,7 @@ export class UsersService {
         id,
       },
       select: {
+        id: true,
         name: true,
         email: true,
         password: false,
